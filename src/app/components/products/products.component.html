@@ -1,0 +1,63 @@
+<div class="row">
+  <div class="col-md-4">
+    <form #myForm="ngForm" (submit)="saveProduct(product, myForm)">
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input class="form-control"
+               [(ngModel)]="product.name"
+               id="name"
+               name="name"
+               type="text" />
+      </div>
+      <div class="form-group">
+        <label for="price">Price</label>
+        <input class="form-control"
+               [(ngModel)]="product.price"
+               name="price"
+               id="price"
+               type="number" />
+      </div>
+      <div class="form-group">
+        <label for="categoryId">Category</label>
+        <select id="categoryId"
+                name="categoryId"
+                class="form-control"
+                [(ngModel)]="product.categoryId">
+          <option *ngFor="let category of categories | async "
+                  [ngValue]="category.categoryId">
+            {{ category.categoryName }}
+          </option>
+        </select>
+      </div>
+      <div class="text-center">
+        <button class="btn btn-primary" *ngIf="!editMode" type="submit">Save</button>
+        <button class="btn btn-warning" *ngIf="editMode"  type="submit">Edit</button>
+      </div>
+    </form>
+  </div>
+  <div class="col-md-8">
+    <table class="table table-hover table-dark">
+      <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Price</th>
+        <th scope="col">Category</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let product of products">
+        <th scope="row">{{ product.productId }}</th>
+        <td>{{ product.name }}</td>
+        <td>{{ product.price }}</td>
+        <td>{{ product.category.categoryName }}</td>
+        <td colspan="2" class="d-flex justify-content-center">
+          <button class="btn btn-sm btn-danger" (click)="deleteProduct(product.productId)">Delete</button>&nbsp;
+          <button class="btn btn-sm btn-warning" (click)="modifyProduct(product)">Edit</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
